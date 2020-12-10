@@ -127,12 +127,29 @@ document.addEventListener('DOMContentLoaded', () => {
   let draggedShip;
   let draggedShipLength;
 
-  const dragStart = () => {
+  ships.forEach((ship) =>
+    ship.addEventListener('mousedown', (e) => {
+      console.log(e);
+      selectedShipNameWithIndex = e.target.id;
+      console.log(selectedShipNameWithIndex);
+    })
+  );
+  const dragStart = (e) => {
+    console.log(e.target);
+    console.log(this);
     draggedShip = this;
     console.log(draggedShip);
     draggedShipLength = this.childNodes.length;
     console.log(draggedShip);
   };
+  console.log(ships);
+  ships.forEach((ship) => ship.addEventListener('dragstart', dragStart));
+  userSquares.forEach((square) => square.addEventListener('dragstart', dragStart));
+  // userSquares.forEach((square) => square.addEventListener('dragover', dragOver));
+  // userSquares.forEach((square) => square.addEventListener('dragenter', dragEnter));
+  // userSquares.forEach((square) => square.addEventListener('dragleave', dragLeave));
+  // userSquares.forEach((square) => square.addEventListener('drop', dragDrop));
+  // userSquares.forEach((square) => square.addEventListener('dragend', dragEnd));
 
   const dragOver = (e) => {
     e.preventDefault();
@@ -146,15 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('drag leave');
   };
 
-  ships.forEach((ship) =>
-    ship.addEventListener('mousedown', (e) => {
-      selectedShipNameWithIndex = e.target.id;
-      console.log(selectedShipNameWithIndex);
-    })
-  );
-
-  const dragDrop = (e) => {
-    let shipNameWithLastId = e.target.lastChild.id;
+  const dragDrop = () => {
+    let shipNameWithLastId = draggedShip.lastChild.id;
     let shipClass = shipNameWithLastId.slice(0, -2);
     console.log(shipClass);
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1));
@@ -168,7 +178,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
     shipLastId = shipLastId - selectedShipIndex;
     console.log(shipLastId);
-
+    const notAllowedHorizontal = [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      81,
+      91,
+      2,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      82,
+      92,
+      3,
+      13,
+      23,
+      33,
+      43,
+      53,
+      63,
+      73,
+      83,
+      93,
+    ];
+    const notAllowedVertical = [
+      99,
+      98,
+      97,
+      96,
+      95,
+      94,
+      93,
+      92,
+      91,
+      90,
+      89,
+      88,
+      87,
+      86,
+      85,
+      84,
+      83,
+      82,
+      81,
+      80,
+      79,
+      78,
+      77,
+      76,
+      75,
+      74,
+      73,
+      72,
+      71,
+      70,
+      69,
+      68,
+      67,
+      66,
+      65,
+      64,
+      63,
+      62,
+      61,
+      60,
+    ];
     if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
       for (let i = 0; i < draggedShipLength; i++) {
         userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', shipClass);
@@ -187,96 +279,4 @@ document.addEventListener('DOMContentLoaded', () => {
   const dragEnd = () => {
     console.log('dragend');
   };
-
-  ships.forEach((ship) => ship.addEventListener('dragstart', dragStart));
-  userSquares.forEach((square) => square.addEventListener('dragstart', dragStart));
-  userSquares.forEach((square) => square.addEventListener('dragover', dragOver));
-  userSquares.forEach((square) => square.addEventListener('dragenter', dragEnter));
-  userSquares.forEach((square) => square.addEventListener('dragleave', dragLeave));
-  userSquares.forEach((square) => square.addEventListener('drop', dragDrop));
-  userSquares.forEach((square) => square.addEventListener('dragend', dragEnd));
-
-  const notAllowedHorizontal = [
-    0,
-    10,
-    20,
-    30,
-    40,
-    50,
-    60,
-    70,
-    80,
-    90,
-    1,
-    11,
-    21,
-    31,
-    41,
-    51,
-    61,
-    71,
-    81,
-    91,
-    2,
-    22,
-    32,
-    42,
-    52,
-    62,
-    72,
-    82,
-    92,
-    3,
-    13,
-    23,
-    33,
-    43,
-    53,
-    63,
-    73,
-    83,
-    93,
-  ];
-  const notAllowedVertical = [
-    99,
-    98,
-    97,
-    96,
-    95,
-    94,
-    93,
-    92,
-    91,
-    90,
-    89,
-    88,
-    87,
-    86,
-    85,
-    84,
-    83,
-    82,
-    81,
-    80,
-    79,
-    78,
-    77,
-    76,
-    75,
-    74,
-    73,
-    72,
-    71,
-    70,
-    69,
-    68,
-    67,
-    66,
-    65,
-    64,
-    63,
-    62,
-    61,
-    60,
-  ];
 });
