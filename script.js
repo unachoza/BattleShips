@@ -10,12 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const battleship = document.querySelector('.battleship-container');
   const carrier = document.querySelector('.carrier-container');
   const startButton = document.querySelector('#start-button');
-  const rotateButton = document.querySelector('#rotate-button');
+  const rotateButton = document.querySelector('#rotate');
   const turnDisplay = document.querySelector('#whose-go');
   const infoDisplay = document.querySelector('#info');
   const userSquares = [];
   const computerSquares = [];
-
+  let isHorizontal = true;
+  let isGameOver = false;
+  let currentPlayer = 'user';
   const width = 10;
 
   // Create Board
@@ -94,4 +96,29 @@ document.addEventListener('DOMContentLoaded', () => {
   generate(shipsArray[2]);
   generate(shipsArray[3]);
   generate(shipsArray[4]);
+
+  //Rotate the ships
+  const rotate = () => {
+    if (isHorizontal) {
+      destroyer.classList.toggle('destroyer-container-vertical');
+      submarine.classList.toggle('submarine-container-vertical');
+      cruiser.classList.toggle('cruiser-container-vertical');
+      battleship.classList.toggle('battleship-container-vertical');
+      carrier.classList.toggle('carrier-container-vertical');
+      isHorizontal = false;
+      console.log(isHorizontal);
+      return;
+    }
+    if (!isHorizontal) {
+      destroyer.classList.toggle('destroyer-container-vertical');
+      submarine.classList.toggle('submarine-container-vertical');
+      cruiser.classList.toggle('cruiser-container-vertical');
+      battleship.classList.toggle('battleship-container-vertical');
+      carrier.classList.toggle('carrier-container-vertical');
+      isHorizontal = true;
+      console.log(isHorizontal);
+      return;
+    }
+  };
+  rotateButton.addEventListener('click', rotate);
 });
