@@ -123,8 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
   rotateButton.addEventListener('click', rotate);
 
   // Move Around User Ship
+  let selectedShipNameWithIndex;
+  let draggedShip;
+  let draggedShipLength;
+
   const dragStart = () => {
     draggedShip = this;
+    console.log(draggedShip);
     draggedShipLength = this.childNodes.length;
     console.log(draggedShip);
   };
@@ -141,10 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('drag leave');
   };
 
-  let selectedShipNameWithIndex;
-  let draggedShip;
-  let draggedShipLength;
-
   ships.forEach((ship) =>
     ship.addEventListener('mousedown', (e) => {
       selectedShipNameWithIndex = e.target.id;
@@ -152,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   );
 
-  const dragDrop = () => {
-    let shipNameWithLastId = draggedShip.lastChild.id;
+  const dragDrop = (e) => {
+    let shipNameWithLastId = e.target.lastChild.id;
     let shipClass = shipNameWithLastId.slice(0, -2);
     console.log(shipClass);
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1));
@@ -183,9 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
     displayGrid.removeChild(draggedShip);
   };
 
-  function dragEnd() {
+  const dragEnd = () => {
     console.log('dragend');
-  }
+  };
 
   ships.forEach((ship) => ship.addEventListener('dragstart', dragStart));
   userSquares.forEach((square) => square.addEventListener('dragstart', dragStart));
